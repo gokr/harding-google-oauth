@@ -1,0 +1,9 @@
+{
+  "name": "googleoauth",
+  "version": "0.1.0",
+  "description": "Google OAuth2 wrapper for Harding",
+  "author": "Göran Krampe",
+  "license": "MIT",
+  "bootstrapPath": "lib/googleoauth/Bootstrap.hrd",
+  "compileFlag": "harding_googleoauth"
+}

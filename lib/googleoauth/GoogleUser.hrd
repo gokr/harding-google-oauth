@@ -1,0 +1,30 @@
+#!/usr/bin/env harding
+#
+# Google User class
+# Represents a Google user profile retrieved via OAuth2
+#
+
+GoogleUser := Object deriveWithAccessors: #(
+    id
+    email
+    name
+    givenName
+    familyName
+    picture
+    locale
+    verifiedEmail
+)
+
+GoogleUser class>>new <primitive primitiveGoogleUserNew>
+
+# Check if email is verified
+GoogleUser>>isVerified [
+    ^ verifiedEmail = true
+]
+
+# Get full display name
+GoogleUser>>displayName [
+    name notNil ifTrue: [ ^ name ].
+    givenName notNil ifTrue: [ ^ givenName ].
+    ^ email
+]

@@ -1,0 +1,108 @@
+#!/usr/bin/env harding
+#
+# Google OAuth2 Example
+# Demonstrates complete Google authentication flow
+#
+
+"=== Google OAuth2 Example ===" print.
+""
+
+# Load the library
+Harding load: "lib/googleoauth/Bootstrap.hrd".
+
+# Configuration (replace with your actual credentials)
+clientId := "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com".
+clientSecret := "YOUR_GOOGLE_CLIENT_SECRET".
+redirectUri := "http://localhost:8080/callback".
+
+# Check if credentials are configured
+clientId = "YOUR_GOOGLE_CLIENT_ID" ifTrue: [
+    "ERROR: Please configure your Google OAuth credentials first!" print.
+    "1. Go to https://console.cloud.google.com/" print.
+    "2. Create OAuth2 credentials" print.
+    "3. Update clientId, clientSecret, and redirectUri in this file" print.
+    ^ nil.
+].
+
+"Step 1: Creating Google OAuth client..." print.
+google := GoogleOAuth 
+    clientId: clientId
+    clientSecret: clientSecret
+    redirectUri: redirectUri.
+
+"Step 2: Generating authorization URL..." print.
+# Use basic scopes: openid, email, profile
+scope := GoogleOAuth scopeBasic.
+authUrl := google getAuthorizationUrl: scope.
+
+"Please open this URL in your browser:" print.
+authUrl print.
+""
+"After authorization, Google will redirect you to your redirect URI" print.
+"with a 'code' parameter. Copy that code and paste it below." print.
+""
+
+# In a real web app, you'd handle the callback automatically
+# For this example, we simulate having received the code
+code := "SIMULATED_AUTH_CODE".
+
+"Step 3: Exchanging code for tokens..." print.
+tokens := google exchangeCode: code.
+
+tokens notNil ifTrue: [
+    "✓ Successfully obtained tokens!" print.
+    ""
+    
+    accessToken := tokens at: "access_token".
+    refreshToken := tokens at: "refresh_token".
+    idToken := tokens at: "id_token".
+    expiresIn := tokens at: "expires_in".
+    
+    "Access Token: " print. accessToken print.
+    "Refresh Token: " print. refreshToken print.
+    "ID Token: " print. (idToken slice: 0 length: 50) print. "..." print.
+    "Expires In: " print. expiresIn printString print. " seconds" print.
+    ""
+    
+    "Step 4: Verifying ID token..." print.
+    verifiedClaims := google verifyIdToken: idToken.
+    verifiedClaims notNil ifTrue: [
+        "✓ ID token verified!" print.
+        "Issuer: " print. (verifiedClaims at: "iss") print.
+        "Audience: " print. (verifiedClaims at: "aud") print.
+        "Email: " print. (verifiedClaims at: "email") print.
+        ""
+    ] ifFalse: [
+        "✗ ID token verification failed" print.
+    ].
+    
+    "Step 5: Fetching user profile..." print.
+    user := google getUserInfo: accessToken.
+    user notNil ifTrue: [
+        "✓ User profile retrieved!" print.
+        ""
+        "User Details:" print.
+        "  ID: " print. user id print.
+        "  Name: " print. user name print.
+        "  Email: " print. user email print.
+        "  Verified: " print. user isVerified printString print.
+        "  Picture: " print. user picture print.
+        ""
+        
+        "Welcome, " print. user displayName print. "!" print.
+    ] ifFalse: [
+        "✗ Failed to get user info" print.
+    ].
+    
+    ""
+    "Step 6: Token refresh example..." print.
+    "In a real app, you'd refresh the token when it expires:" print.
+    "newTokens := google refreshAccessToken: refreshToken." print.
+    
+] ifFalse: [
+    "✗ Failed to exchange code for tokens" print.
+    "Make sure you provided a valid authorization code" print.
+].
+
+""
+"=== Example Complete ===" print.

@@ -1,0 +1,7 @@
+#!/usr/bin/env harding
+#
+# Google OAuth Bootstrap - Loads Google OAuth classes
+#
+
+Harding load: "lib/googleoauth/GoogleOAuth.hrd".
+Harding load: "lib/googleoauth/GoogleUser.hrd".

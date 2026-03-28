@@ -1,0 +1,45 @@
+#!/usr/bin/env harding
+#
+# Google OAuth class
+# Provides Google OAuth2 authentication with pre-configured endpoints
+#
+
+GoogleOAuth := Object derive: #(clientId clientSecret redirectUri)
+
+# Class methods
+GoogleOAuth class>>new <primitive primitiveGoogleOAuthNew>
+
+GoogleOAuth class>>clientId: clientId clientSecret: clientSecret redirectUri: redirectUri [
+    | auth |
+    auth := self new.
+    auth clientId: clientId.
+    auth clientSecret: clientSecret.
+    auth redirectUri: redirectUri.
+    ^ auth
+]
+
+# Instance methods
+# Get the authorization URL to redirect user to Google
+GoogleOAuth>>getAuthorizationUrl: scope <primitive primitiveGoogleOAuthGetAuthorizationUrl:>
+GoogleOAuth>>getAuthorizationUrl: scope usePKCE: usePKCE <primitive primitiveGoogleOAuthGetAuthorizationUrl:usePKCE:>
+
+# Exchange authorization code for tokens
+GoogleOAuth>>exchangeCode: code <primitive primitiveGoogleOAuthExchangeCode:>
+
+# Verify a Google ID token (JWT)
+GoogleOAuth>>verifyIdToken: idToken <primitive primitiveGoogleOAuthVerifyIdToken:>
+
+# Get user info from access token
+GoogleOAuth>>getUserInfo: accessToken <primitive primitiveGoogleOAuthGetUserInfo:>
+
+# Refresh an access token
+GoogleOAuth>>refreshAccessToken: refreshToken <primitive primitiveGoogleOAuthRefreshAccessToken:>
+
+# Predefined scopes
+GoogleOAuth class>>scopeOpenId [ ^ "openid" ]
+GoogleOAuth class>>scopeEmail [ ^ "email" ]
+GoogleOAuth class>>scopeProfile [ ^ "profile" ]
+GoogleOAuth class>>scopeBasic [ ^ "openid email profile" ]
+GoogleOAuth class>>scopeDrive [ ^ "https://www.googleapis.com/auth/drive" ]
+GoogleOAuth class>>scopeCalendar [ ^ "https://www.googleapis.com/auth/calendar" ]
+GoogleOAuth class>>scopeSheets [ ^ "https://www.googleapis.com/auth/spreadsheets" ]
