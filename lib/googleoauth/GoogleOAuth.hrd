@@ -4,7 +4,7 @@
 # Provides Google OAuth2 authentication with pre-configured endpoints
 #
 
-GoogleOAuth := Object derive: #(clientId clientSecret redirectUri)
+GoogleOAuth := Object derive: #(clientId, clientSecret, redirectUri)
 
 # Class methods
 GoogleOAuth class>>new <primitive primitiveGoogleOAuthNew>
@@ -20,20 +20,20 @@ GoogleOAuth class>>clientId: clientId clientSecret: clientSecret redirectUri: re
 
 # Instance methods
 # Get the authorization URL to redirect user to Google
-GoogleOAuth>>getAuthorizationUrl: scope <primitive primitiveGoogleOAuthGetAuthorizationUrl:>
-GoogleOAuth>>getAuthorizationUrl: scope usePKCE: usePKCE <primitive primitiveGoogleOAuthGetAuthorizationUrl:usePKCE:>
+GoogleOAuth>>getAuthorizationUrl: scope <primitive primitiveGoogleOAuthGetAuthorizationUrl: scope>
+GoogleOAuth>>getAuthorizationUrl: scope usePKCE: usePKCE <primitive primitiveGoogleOAuthGetAuthorizationUrl: scope usePKCE: usePKCE>
 
 # Exchange authorization code for tokens
-GoogleOAuth>>exchangeCode: code <primitive primitiveGoogleOAuthExchangeCode:>
+GoogleOAuth>>exchangeCode: code <primitive primitiveGoogleOAuthExchangeCode: code>
 
 # Verify a Google ID token (JWT)
-GoogleOAuth>>verifyIdToken: idToken <primitive primitiveGoogleOAuthVerifyIdToken:>
+GoogleOAuth>>verifyIdToken: idToken <primitive primitiveGoogleOAuthVerifyIdToken: idToken>
 
 # Get user info from access token
-GoogleOAuth>>getUserInfo: accessToken <primitive primitiveGoogleOAuthGetUserInfo:>
+GoogleOAuth>>getUserInfo: accessToken <primitive primitiveGoogleOAuthGetUserInfo: accessToken>
 
 # Refresh an access token
-GoogleOAuth>>refreshAccessToken: refreshToken <primitive primitiveGoogleOAuthRefreshAccessToken:>
+GoogleOAuth>>refreshAccessToken: refreshToken <primitive primitiveGoogleOAuthRefreshAccessToken: refreshToken>
 
 # Predefined scopes
 GoogleOAuth class>>scopeOpenId [ ^ "openid" ]

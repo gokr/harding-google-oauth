@@ -9,13 +9,13 @@ import harding/interpreter/objects
 import harding/interpreter/vm
 import harding/packages/package_api
 
-import ./googleoauth/googleoauth_impl
-import ./googleoauth/googleuser_impl
+import ./googleoauth_impl
+import ./googleuser_impl
 
 const
-  BootstrapHrd = staticRead("../lib/googleoauth/Bootstrap.hrd")
-  GoogleOAuthHrd = staticRead("../lib/googleoauth/GoogleOAuth.hrd")
-  GoogleUserHrd = staticRead("../lib/googleoauth/GoogleUser.hrd")
+  BootstrapHrd = staticRead("../../lib/googleoauth/Bootstrap.hrd")
+  GoogleOAuthHrd = staticRead("../../lib/googleoauth/GoogleOAuth.hrd")
+  GoogleUserHrd = staticRead("../../lib/googleoauth/GoogleUser.hrd")
 
 ## ============================================================================
 ## Primitive Registration
@@ -172,7 +172,7 @@ proc registerGoogleUserPrimitives(interp: var Interpreter) =
   userCls.version += 1
   invalidateSubclasses(userCls)
 
-proc registerGoogleOAuthPrimitives(interp: var Interpreter) {.nimcall.} =
+proc registerAllGoogleOAuthPrimitives(interp: var Interpreter) {.nimcall.} =
   ## Register all Google OAuth primitives with Harding
   registerGoogleOAuthPrimitives(interp)
   registerGoogleUserPrimitives(interp)
@@ -193,7 +193,7 @@ proc installGoogleOAuth*(interp: var Interpreter) =
       (path: "lib/googleoauth/GoogleOAuth.hrd", source: GoogleOAuthHrd),
       (path: "lib/googleoauth/GoogleUser.hrd", source: GoogleUserHrd)
     ],
-    registerPrimitives: registerGoogleOAuthPrimitives
+    registerPrimitives: registerAllGoogleOAuthPrimitives
   )
 
   discard installPackage(interp, spec)

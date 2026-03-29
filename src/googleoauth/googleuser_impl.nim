@@ -3,6 +3,7 @@
 ## Native implementation for GoogleUser class
 ## ============================================================================
 
+import std/tables
 import harding/core/types
 import harding/interpreter/objects
 
@@ -53,13 +54,10 @@ proc googleUserNewImpl*(interp: var Interpreter, self: Instance,
 # Helper proc to set instance slots
 proc setInstanceSlot*(instance: Instance, slotName: string, value: NodeValue) =
   ## Set a slot value on an instance
-  if instance.slots.hasKey(slotName):
-    instance.slots[slotName] = value
-  else:
-    # Try to find the slot in the class hierarchy
-    var cls = instance.class
-    while cls != nil:
-      if slotName in cls.slots:
-        instance.slots[slotName] = value
-        return
-      cls = cls.super
+  # allSlotNames already includes inherited slots, just find the index
+  let cls = instance.class
+  for i, name in cls.allSlotNames:
+    if name == slotName:
+      if i < instance.slots.len:
+        instance.slots[i] = value
+      return

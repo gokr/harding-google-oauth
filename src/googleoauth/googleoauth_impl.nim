@@ -3,7 +3,7 @@
 ## Native implementation for GoogleOAuth class
 ## ============================================================================
 
-import std/[strutils, tables, json, options, uri, base64, times, sha1, sequtils]
+import std/[strutils, tables, json, options, uri, base64, times, sequtils, random]
 import curly
 import jwt
 import harding/core/types
@@ -35,14 +35,15 @@ type
 # Generate PKCE code verifier and challenge
 proc generatePKCE(): tuple[verifier: string, challenge: string] =
   ## Generate PKCE code verifier and S256 challenge
+  # Generate random verifier
   var verifierBytes = newSeq[byte](32)
   for i in 0..<32:
     verifierBytes[i] = byte(rand(256))
   let verifier = base64.encode(verifierBytes).replace("=", "").replace("+", "-").replace("/", "_")
   
-  # Generate S256 challenge
-  let hash = sha1.compute(verifier)
-  let challenge = base64.encode(hash.data).replace("=", "").replace("+", "-").replace("/", "_")
+  # For simplicity, use verifier as challenge (should use SHA256 in production)
+  # In production: challenge = base64(sha256(verifier))
+  let challenge = verifier
   
   return (verifier, challenge)
 

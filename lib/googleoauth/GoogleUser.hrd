@@ -4,16 +4,7 @@
 # Represents a Google user profile retrieved via OAuth2
 #
 
-GoogleUser := Object deriveWithAccessors: #(
-    id
-    email
-    name
-    givenName
-    familyName
-    picture
-    locale
-    verifiedEmail
-)
+GoogleUser := Object deriveWithAccessors: #(id, email, name, givenName, familyName, picture, locale, verifiedEmail)
 
 GoogleUser class>>new <primitive primitiveGoogleUserNew>
 

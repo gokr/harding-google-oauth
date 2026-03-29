@@ -1,9 +1,14 @@
 {
   "name": "googleoauth",
   "version": "0.1.0",
+  "installedAt": "2026-03-28T23:02:50Z",
+  "source": "https://github.com/gokr/harding-google-oauth.git",
+  "commit": "0c88894796e0177232ec3a3767a9f0565251fe82",
   "description": "Google OAuth2 wrapper for Harding",
   "author": "Göran Krampe",
-  "license": "MIT",
-  "bootstrapPath": "lib/googleoauth/Bootstrap.hrd",
-  "compileFlag": "harding_googleoauth"
+  "requires": [
+    "nim >= 2.0.0",
+    "jwt",
+    "curly"
+  ]
 }
